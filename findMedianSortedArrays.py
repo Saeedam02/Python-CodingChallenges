@@ -45,5 +45,3 @@ def findMedianSortedArrays(self, nums1:list, nums2:list) ->float :
 # print(findMedianSortedArrays([1,3],[5]))
 nums1 = [1,3]
 nums2 = [2]
-nums1.extend(nums2)
-print(nums1)

@@ -1,47 +1,50 @@
 # Given two sorted arrays nums1 and nums2 of size m and n respectively, return the median of the two sorted arrays.
 # The overall run time complexity should be O(log (m+n)).
 
-# class Median(object):
-#     def __init__(self)
+#Approach 1: Merge Sort
 
-def findMedianSortedArrays(self, nums1:list, nums2:list) ->float :
-    """
-    Calculate the Median of Two Sorted Arrays.
+class Solution:
+    def findMedianSortedArrays(self, nums1: list[int], nums2: list[int]) -> float:
+        """
+        Calculate the Median of Two Sorted Arrays.
 
-    :param num1: First input.
-    :param nums2: Second inpu.
+        :param num1: First input.
+        :param nums2: Second inpu.
 
-    :returns: the median of the two sorted arrays
-    """
-    m = len(nums1)
-    n = len(nums2)
-    nums1.append(nums2)
-#     m = len(nums1)
-#     n = len(nums2)
-#     if m > n: return self.findMedianSortedArrays(nums2, nums1)
-#     low = 0
-#     high = m
-#     while low <= high:
-#         midIndex = (low + high)/2
-#         x = nums1[midIndex]
-#         y = nums2[midIndex - low]
-#         if x < y:
-#             low = midIndex + 1
-#         elif x > y:
-#             high = midIndex - 1
-#         else:
-#             if midIndex == 0 or nums1[midIndex-1] != x:
-#                 return float(x)
-#         low = midIndex + 1
-#         high = min(len(nums2), midIndex + 1)
-#         left_half = max(0, midIndex - low)
-#         right_half = min(high, len(nums1))
-#         total_length = left_half + right_half
-#         if total_length % 2 == 0:
-#             return (max(left_half, right_half) * x + min(right_half, left_half) * y)
-#         else:
-#             return float((max(left_half, right_half) * x + min(right_half, left_half) * y)
-#                          / (total_length + 1))
-# print(findMedianSortedArrays([1,3],[5]))
+        :returns: the median of the two sorted arrays
+        """
+        m, n = len(nums1), len(nums2)
+        p1, p2 = 0, 0
+        
+        # Get the smaller value between nums1[p1] and nums2[p2].
+        def get_min():
+            nonlocal p1, p2
+            if p1 < m and p2 < n:
+                if nums1[p1] < nums2[p2]:
+                    ans = nums1[p1]
+                    p1 += 1
+                else:
+                    ans = nums2[p2]
+                    p2 += 1
+            elif p2 == n:
+                ans = nums1[p1]
+                p1 += 1
+            else:
+                ans = nums2[p2]
+                p2 += 1
+            return ans
+        
+        if (m + n) % 2 == 0:
+            for _ in range((m + n) // 2 - 1):
+                _ = get_min()
+            return (get_min() + get_min()) / 2
+        else:
+            for _ in range((m + n) // 2):
+                _ = get_min()
+            return get_min()
+        
 nums1 = [1,3]
 nums2 = [2]
+c = Solution()
+print(c.findMedianSortedArrays(nums1,nums2))
+
